@@ -21,4 +21,6 @@ chroma.sqlite3
 milvus.db
 .milvus.db.lock
 
+**/secrets.toml
+
 
