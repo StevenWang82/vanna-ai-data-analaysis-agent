@@ -4,6 +4,91 @@
 | ------ | ---- | ------------- | -------- |
 | [![GitHub](https://img.shields.io/badge/GitHub-vanna-blue?logo=github)](https://github.com/vanna-ai/vanna) | [![PyPI](https://img.shields.io/pypi/v/vanna?logo=pypi)](https://pypi.org/project/vanna/) | [![Documentation](https://img.shields.io/badge/Documentation-vanna-blue?logo=read-the-docs)](https://vanna.ai/docs/) | [![Gurubase](https://img.shields.io/badge/Gurubase-Ask%20Vanna%20Guru-006BFF)](https://gurubase.io/g/vanna) |
 
+
+此專案fork自 [vanna-ai/vanna](https://github.com/vanna-ai/vanna)
+主要用於測試 Vanna.AI功能。
+---
+
+# Vanna.AI 實作測試專案
+
+## 專案結構
+```
+my-test/
+├── SQL_agent.ipynb              # Jupyter notebook 範例
+├── requirements.txt             # 基本相依套件
+├── .env.example                # 環境變數範例
+├── onnxruntime_安裝指南.md      # ONNX Runtime 安裝教學
+├── guidieline_for_fixing_problem_of_onnxruntime.md  # 問題排解指南
+└── vanna-streamlit/            # Streamlit 應用示範
+    ├── README.md               # Streamlit 應用說明
+    ├── requirements.txt        # Streamlit 應用相依套件
+    └── vanna_calls.py         # Vanna 設定和調用
+```
+
+## 主要功能
+此測試專案展示如何：
+1. 使用 Google Gemini 模型
+2. 建立 SQL訓練資料
+2. 整合 Qdrant 向量資料庫
+3. 實作 Streamlit 介面
+
+## 快速開始
+
+### 環境設定
+1. 複製環境變數範例檔案：
+```bash
+cp my-test/.env.example my-test/.env
+```
+
+2. 設定必要的環境變數：
+- GEMINI_API_KEY
+- GEMINI_MODEL
+- QDRANT_API_KEY
+- 資料庫相關設定
+
+### 安裝相依套件
+請先參考 `onnxruntime_安裝指南.md` 解決 ONNX Runtime 相關問題，然後：
+
+```bash
+cd my-test
+pip install -r requirements.txt
+```
+
+### Jupyter Notebook 範例
+在 `SQL_agent.ipynb` 中，我們示範：
+- Vanna.AI 基本設定
+- 使用 Gemini 模型
+- Qdrant 向量資料庫整合
+- SQL 查詢生成範例
+
+### Streamlit 應用
+如需運行 Streamlit 示範應用：
+```bash
+cd my-test/vanna-streamlit
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+## 注意事項
+1. ONNX Runtime 安裝：
+   - Windows 環境建議使用版本 1.21.0
+   - 詳細安裝指南請參考 `onnxruntime_安裝指南.md`
+
+2. 向量資料庫選擇：
+   - 本專案使用 Qdrant 作為向量資料庫
+   - 支援 fastembed 進行向量嵌入
+
+3. 模型選擇：
+   - 使用 Google Gemini 模型
+   - 需要有效的 API 金鑰
+
+## 常見問題
+如遇到安裝或執行問題，請參考：
+- `onnxruntime_安裝指南.md`
+- `guidieline_for_fixing_problem_of_onnxruntime.md`
+
+---
+
 # Vanna
 Vanna is an MIT-licensed open-source Python RAG (Retrieval-Augmented Generation) framework for SQL generation and related functionality.
 
