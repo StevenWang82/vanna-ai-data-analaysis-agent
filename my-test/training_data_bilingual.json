@@ -1,0 +1,122 @@
+[
+  {
+    "query_en": "Show me all product names.",
+    "query_zh": "顯示所有產品的名稱。",
+    "sql_syntax": "SELECT product_name FROM Products;"
+  },
+  {
+    "query_en": "List the first name, last name, and email of customers whose first name is 'John'.",
+    "query_zh": "列出名字是 'John' 的客戶的名字、姓氏和電子郵件。",
+    "sql_syntax": "SELECT first_name, last_name, email FROM Customers WHERE first_name = 'John';"
+  },
+  {
+    "query_en": "Find the top 10 most expensive products, showing their name and price, ordered by price descending.",
+    "query_zh": "找出前10個最貴的產品，顯示它們的名稱和價格，並按價格由高到低排序。",
+    "sql_syntax": "SELECT TOP 10 product_name, price FROM Products ORDER BY price DESC;"
+  },
+  {
+    "query_en": "Find all customers whose email address ends with '@example.com'.",
+    "query_zh": "找出所有電子郵件地址以 '@example.com' 結尾的客戶。",
+    "sql_syntax": "SELECT customer_id, first_name, last_name, email FROM Customers WHERE email LIKE '%@example.com';"
+  },
+  {
+    "query_en": "How many products belong to category ID 1 or 3?",
+    "query_zh": "有多少產品是屬於分類 ID 1 或 3 的？",
+    "sql_syntax": "SELECT COUNT(product_id) AS NumberOfProducts FROM Products WHERE category_id IN (1, 3);"
+  },
+  {
+    "query_en": "What is the average price of products in category ID 2?",
+    "query_zh": "分類 ID 2 的產品平均價格是多少？",
+    "sql_syntax": "SELECT AVG(price) AS AveragePrice FROM Products WHERE category_id = 2;"
+  },
+  {
+    "query_en": "Show the first name of customers and their corresponding order dates.",
+    "query_zh": "顯示客戶的名字以及他們對應的訂單日期。",
+    "sql_syntax": "SELECT C.first_name, O.order_date \nFROM Customers AS C \nINNER JOIN Orders AS O ON C.customer_id = O.customer_id;"
+  },
+  {
+    "query_en": "Count the number of products in each category. Show the category name and the count.",
+    "query_zh": "計算每個分類中有多少產品。顯示分類名稱和產品數量。",
+    "sql_syntax": "SELECT Cat.category_name, COUNT(P.product_id) AS NumberOfProducts \nFROM Categories AS Cat \nINNER JOIN Products AS P ON Cat.category_id = P.category_id \nGROUP BY Cat.category_name;"
+  },
+  {
+    "query_en": "List the customer ID and the total number of orders for customers who have placed more than 3 orders.",
+    "query_zh": "列出下單超過3次的客戶的客戶ID及其訂單總數。",
+    "sql_syntax": "SELECT C.customer_id, COUNT(O.order_id) AS TotalOrders \nFROM Customers AS C \nINNER JOIN Orders AS O ON C.customer_id = O.customer_id \nGROUP BY C.customer_id \nHAVING COUNT(O.order_id) > 3;"
+  },
+  {
+    "query_en": "List the names of customers who have placed any orders.",
+    "query_zh": "列出所有下過訂單的客戶姓名。",
+    "sql_syntax": "SELECT first_name, last_name \nFROM Customers \nWHERE customer_id IN (SELECT DISTINCT customer_id FROM Orders);"
+  },
+  {
+    "query_en": "Show products that cost more than the average product price.",
+    "query_zh": "顯示價格高於所有產品平均價格的產品。",
+    "sql_syntax": "SELECT product_name, price \nFROM Products \nWHERE price > (SELECT AVG(price) FROM Products);"
+  },
+  {
+    "query_en": "Show category names that contain at least one product.",
+    "query_zh": "顯示至少包含一個產品的分類名稱。",
+    "sql_syntax": "SELECT C.category_name \nFROM Categories AS C \nWHERE EXISTS (SELECT 1 FROM Products AS P WHERE P.category_id = C.category_id);"
+  },
+  {
+    "query_en": "List all customers' first names and their order dates. Include customers who have not placed any orders.",
+    "query_zh": "列出所有客戶的名字及其訂單日期。包含尚未下任何訂單的客戶。",
+    "sql_syntax": "SELECT C.first_name, O.order_date \nFROM Customers AS C \nLEFT JOIN Orders AS O ON C.customer_id = O.customer_id;"
+  },
+  {
+    "query_en": "Show the name of each category and the total number of products belonging to it. Include categories that have zero products.",
+    "query_zh": "顯示每個分類的名稱及其包含的產品總數。包含產品數量為零的分類。",
+    "sql_syntax": "SELECT Cat.category_name, COUNT(P.product_id) AS NumberOfProducts \nFROM Categories AS Cat \nLEFT JOIN Products AS P ON Cat.category_id = P.category_id \nGROUP BY Cat.category_name;"
+  },
+  {
+    "query_en": "Find the product names and quantities for order ID 5.",
+    "query_zh": "找出訂單 ID 為 5 的產品名稱和數量。",
+    "sql_syntax": "SELECT P.product_name, OI.quantity \nFROM Order_Items AS OI \nINNER JOIN Products AS P ON OI.product_id = P.product_id \nWHERE OI.order_id = 5;"
+  },
+  {
+    "query_en": "Show each product's name, its price, its category name, and the average price of all products within the same category.",
+    "query_zh": "顯示每個產品的名稱、價格、其分類名稱，以及該分類所有產品的平均價格。",
+    "sql_syntax": "SELECT \n    P.product_name, \n    P.price, \n    C.category_name, \n    AVG(P.price) OVER (PARTITION BY P.category_id) AS AvgCategoryPrice \nFROM Products AS P \nINNER JOIN Categories AS C ON P.category_id = C.category_id;"
+  },
+  {
+    "query_en": "List the top 3 most expensive products within each category, showing category name, product name, and price.",
+    "query_zh": "列出每個分類中最貴的前3個產品，顯示分類名稱、產品名稱和價格。",
+    "sql_syntax": "WITH RankedProducts AS (\n    SELECT \n        C.category_name, \n        P.product_name, \n        P.price, \n        RANK() OVER(PARTITION BY P.category_id ORDER BY P.price DESC) AS PriceRank \n    FROM Products AS P \n    INNER JOIN Categories AS C ON P.category_id = C.category_id\n)\nSELECT \n    category_name, \n    product_name, \n    price \nFROM RankedProducts \nWHERE PriceRank <= 3;"
+  },
+  {
+    "query_en": "Find the names and emails of customers who have ordered the absolute most expensive product available across all categories.",
+    "query_zh": "找出訂購了所有分類中最貴產品的客戶姓名和電子郵件。",
+    "sql_syntax": "WITH MaxPriceProduct AS (\n    -- 找出價格最高的產品ID\n    SELECT product_id\n    FROM Products\n    WHERE price = (SELECT MAX(price) FROM Products)\n),\nOrdersWithMaxProduct AS (\n    -- 找出包含這些最貴產品的訂單ID\n    SELECT DISTINCT OI.order_id\n    FROM Order_Items AS OI\n    INNER JOIN MaxPriceProduct AS MPP ON OI.product_id = MPP.product_id\n),\nCustomersWithMaxProductOrder AS (\n    -- 找出下了這些訂單的客戶ID\n    SELECT DISTINCT O.customer_id\n    FROM Orders AS O\n    INNER JOIN OrdersWithMaxProduct AS OWMP ON O.order_id = OWMP.order_id\n)\n-- 選出這些客戶的詳細資訊\nSELECT \n    C.first_name, \n    C.last_name, \n    C.email \nFROM Customers AS C\nINNER JOIN CustomersWithMaxProductOrder AS CWMP ON C.customer_id = CWMP.customer_id;"
+  },
+  {
+    "query_en": "Add a new customer named 'Peter' 'Pan' with email 'peter.p@neverland.com' and phone '555-9876'.",
+    "query_zh": "新增一位客戶，姓名為 'Peter Pan'，電子郵件是 'peter.p@neverland.com'，電話是 '555-9876'。",
+    "sql_syntax": "INSERT INTO Customers (first_name, last_name, email, phone) VALUES ('Peter', 'Pan', 'peter.p@neverland.com', '555-9876');"
+  },
+  {
+    "query_en": "Change the phone number for the customer with email 'john.doe@example.com' to '555-1111'.",
+    "query_zh": "將電子郵件為 'john.doe@example.com' 的客戶的電話號碼更改為 '555-1111'。",
+    "sql_syntax": "UPDATE Customers SET phone = '555-1111' WHERE email = 'john.doe@example.com';"
+  },
+  {
+    "query_en": "Calculate the total quantity of all items ordered between '2023-10-01' and '2023-12-31' by customers whose first name is 'David'.",
+    "query_zh": "計算名字是 'David' 的客戶在 '2023-10-01' 到 '2023-12-31' 期間訂購的所有商品總數量是多少？",
+    "sql_syntax": "SELECT SUM(OI.quantity) AS TotalItemQuantity \nFROM Orders AS O \nINNER JOIN Customers AS C ON O.customer_id = C.customer_id \nINNER JOIN Order_Items AS OI ON O.order_id = OI.order_id \nWHERE C.first_name = 'David' \n  AND O.order_date BETWEEN '2023-10-01' AND '2023-12-31';"
+  },
+  {
+    "query_en": "Remove the customer with the email 'peter.p@neverland.com'.",
+    "query_zh": "移除電子郵件為 'peter.p@neverland.com' 的客戶。",
+    "sql_syntax": "DELETE FROM Customers WHERE email = 'peter.p@neverland.com';"
+  },
+  {
+    "query_en": "How many distinct products were ordered in total across all orders?",
+    "query_zh": "所有訂單總共訂購了多少種不同的產品？",
+    "sql_syntax": "SELECT COUNT(DISTINCT product_id) AS DistinctProductCount FROM Order_Items;"
+  },
+  {
+    "query_en": "Create a view named 'ProductCategoryView' that shows the product name and its corresponding category name.",
+    "query_zh": "建立一個名為 'ProductCategoryView' 的檢視表，顯示產品名稱及其對應的分類名稱。",
+    "sql_syntax": "CREATE VIEW ProductCategoryView AS\nSELECT \n    P.product_name, \n    C.category_name \nFROM Products AS P \nINNER JOIN Categories AS C ON P.category_id = C.category_id;"
+  }
+]
