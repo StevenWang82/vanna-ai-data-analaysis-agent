@@ -1,4 +1,9 @@
+# 基礎套件
+onnxruntime==1.21.0
 vanna
-qdrant-client 
+qdrant-client[fastembed]  # 包含 fastembed 依賴
 vertexai 
-fastembed
+google-generativeai
+
+# 可選套件（根據需求安裝）
+python-dotenv  # 用於環境變數管理

@@ -1,3 +1,13 @@
+# 基礎套件
+onnxruntime==1.21.0
 vanna
 streamlit
 python-dotenv
+
+# Vanna.AI 相關依賴
+qdrant-client[fastembed]  # 包含 fastembed 依賴
+vertexai
+google-generativeai
+
+# 資料庫連接器
+pyodbc  # 如果需要連接 SQL Server
